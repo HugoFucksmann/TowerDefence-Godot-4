@@ -1,0 +1,113 @@
+[gd_scene load_steps=4 format=3 uid="uid://xxxxxxxxxxxxx"]
+
+[ext_resource type="Script" path="res://scenes/main/main.gd" id="1_xxxxx"]
+[ext_resource type="PackedScene" path="res://scenes/ui/tower_button.tscn" id="2_xxxxx"]
+[ext_resource type="Script" path="res://scenes/main/wave_manager.gd" id="3_xxxxx"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_xxxxx"]
+vertices = PackedVector2Array()
+polygons = []
+outlines = []
+
+[node name="Main" type="Node2D" groups=["main"]]
+script = ExtResource("1_xxxxx")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_xxxxx")
+
+[node name="Grid" type="Node2D" parent="."]
+
+[node name="WaveManager" type="Node" parent="."]
+script = ExtResource("3_xxxxx")
+
+[node name="EnemiesContainer" type="Node2D" parent="."]
+
+[node name="TowerContainer" type="Node2D" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResourcesLabel" type="Label" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 46.0
+grow_horizontal = 0
+text = "Resources: 500"
+horizontal_alignment = 2
+
+[node name="HealthLabel" type="Label" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 60.0
+offset_right = -20.0
+offset_bottom = 86.0
+grow_horizontal = 0
+text = "Health: 20"
+horizontal_alignment = 2
+
+[node name="WaveLabel" type="Label" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 100.0
+offset_right = -20.0
+offset_bottom = 126.0
+grow_horizontal = 0
+text = "Wave: 1"
+horizontal_alignment = 2
+
+[node name="TowerButtons" type="VBoxContainer" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 120.0
+offset_bottom = 500.0
+theme_override_constants/separation = 10
+
+[node name="BasicTower" parent="UI/HUD/TowerButtons" instance=ExtResource("2_xxxxx")]
+layout_mode = 2
+text = "Basic Tower"
+
+[node name="ArtilleryTower" parent="UI/HUD/TowerButtons" instance=ExtResource("2_xxxxx")]
+layout_mode = 2
+text = "Artillery Tower"
+
+[node name="SlowTower" parent="UI/HUD/TowerButtons" instance=ExtResource("2_xxxxx")]
+layout_mode = 2
+text = "Slow Tower"
+
+[node name="AntiAirTower" parent="UI/HUD/TowerButtons" instance=ExtResource("2_xxxxx")]
+layout_mode = 2
+text = "Anti-Air Tower"
+
+[node name="MultiTower" parent="UI/HUD/TowerButtons" instance=ExtResource("2_xxxxx")]
+layout_mode = 2
+text = "Multi Tower"
+
+[node name="HybridTower" parent="UI/HUD/TowerButtons" instance=ExtResource("2_xxxxx")]
+layout_mode = 2
+text = "Hybrid Tower"
+
+[connection signal="pressed" from="UI/HUD/TowerButtons/BasicTower" to="." method="_on_tower_button_pressed" binds= [0]]
+[connection signal="pressed" from="UI/HUD/TowerButtons/ArtilleryTower" to="." method="_on_tower_button_pressed" binds= [1]]
+[connection signal="pressed" from="UI/HUD/TowerButtons/SlowTower" to="." method="_on_tower_button_pressed" binds= [2]]
+[connection signal="pressed" from="UI/HUD/TowerButtons/AntiAirTower" to="." method="_on_tower_button_pressed" binds= [3]]
+[connection signal="pressed" from="UI/HUD/TowerButtons/MultiTower" to="." method="_on_tower_button_pressed" binds= [4]]
+[connection signal="pressed" from="UI/HUD/TowerButtons/HybridTower" to="." method="_on_tower_button_pressed" binds= [5]]
