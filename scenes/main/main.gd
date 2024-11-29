@@ -159,7 +159,7 @@ func get_spawn_position() -> Vector2:
     return grid_to_world(spawn_point) + Vector2(GRID_SIZE / 2, GRID_SIZE / 2)
 
 func get_end_position() -> Vector2:
-    return grid_to_world(end_point) + Vector2(GRID_SIZE / 2, GRID_SIZE / 2)
+    return grid_to_world(end_point)
 
 func spawn_enemy() -> Node:
     var enemy = enemy_scene.instantiate()
@@ -186,33 +186,15 @@ func game_over() -> void:
     get_tree().paused = true
 
 func _update_navigation_polygon() -> void:
-    if not nav_region:
-        return
-    
-    var polygon = NavigationPolygon.new()
-    var outline = PackedVector2Array([
-        Vector2(0, 0),
-        Vector2(GRID_WIDTH * GRID_SIZE, 0),
-        Vector2(GRID_WIDTH * GRID_SIZE, GRID_HEIGHT * GRID_SIZE),
-        Vector2(0, GRID_HEIGHT * GRID_SIZE)
-    ])
-    
-    polygon.add_outline(outline)
-    
-    # Add holes for towers
+    var nav_polygon = NavigationPolygon.new()
     for y in range(GRID_HEIGHT):
         for x in range(GRID_WIDTH):
-            if grid_data[y][x]["type"] == "tower":
-                var hole = PackedVector2Array([
-                    Vector2(x * GRID_SIZE, y * GRID_SIZE),
-                    Vector2((x + 2) * GRID_SIZE, y * GRID_SIZE),
-                    Vector2((x + 2) * GRID_SIZE, (y + 2) * GRID_SIZE),
-                    Vector2(x * GRID_SIZE, (y + 2) * GRID_SIZE)
-                ])
-                polygon.add_outline(hole)
-    
-    polygon.make_polygons_from_outlines()
-    nav_region.navigation_polygon = polygon
+            if grid_data[y][x]["occupied"]:
+                var rect = Rect2(x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
+                nav_polygon.add_outline([rect.position, rect.position + Vector2(GRID_SIZE, 0),
+                                         rect.position + Vector2(GRID_SIZE, GRID_SIZE), rect.position + Vector2(0, GRID_SIZE)])
+    nav_polygon.make_polygons_from_outlines()
+    nav_region.navigation_polygon = nav_polygon
 
 func _on_wave_started(wave_number: int) -> void:
     var wave_label = $UI/HUD/WaveLabel

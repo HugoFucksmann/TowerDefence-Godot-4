@@ -17,12 +17,12 @@ func _ready():
     nav_agent.velocity_computed.connect(_on_velocity_computed)
     
     # Configurar la navegación
-    nav_agent.path_desired_distance = 4.0
-    nav_agent.target_desired_distance = 4.0
+    nav_agent.path_desired_distance = 2.0  # Reduce to improve avoidance
+    nav_agent.target_desired_distance = 2.0  # Reduce to improve avoidance
     nav_agent.avoidance_enabled = true
-    nav_agent.radius = 12.0
-    nav_agent.neighbor_distance = 50.0
-    nav_agent.max_neighbors = 10
+    nav_agent.radius = 16.0  # Increase to better detect towers
+    nav_agent.neighbor_distance = 64.0  # Increase to better detect towers
+    nav_agent.max_neighbors = 15  # Increase to allow more neighbors
     nav_agent.time_horizon = 0.5
     nav_agent.max_speed = base_speed
     
